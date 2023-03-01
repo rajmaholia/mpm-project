@@ -1,6 +1,16 @@
 <?php
 if(!defined('SECURE')) exit('<h1>Access Denied</h1>'); 
 
+function includes($urlfilepath) {
+  $urlfilepath.=".php";
+  try {
+    require_once($urlfilepath);
+  } catch(Exception $e) {
+    var_dump($e);
+  }
+  return $urlpatterns;
+}
+
 function render($server,$filename, $vars = null) {
   if (is_array($vars) && !empty($vars)) {
     extract($vars);

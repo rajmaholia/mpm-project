@@ -38,7 +38,6 @@ function signup($server){
      $form->error_list['confirm_password']=array("Both passwords Must be same");
     } else {
       $data = cleaned_data($_POST);
-      var_dump($data);
       $fields = UserCreationForm::$fields;
       $data_array = array();
       foreach($fields as $key=>$value) {

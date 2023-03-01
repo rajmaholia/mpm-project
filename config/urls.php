@@ -1,6 +1,6 @@
 <?php
 if(!defined('SECURE')) exit('<h1>Access Denied</h1>'); 
-require_once('mpm/auth/urls.php');
+require_once('mpm/functions.php');
 
 /*patterns
 array(
@@ -10,11 +10,11 @@ array(
   ),*/
 
 $urlpatterns =  [
-  ...$urlpatterns,
-   array(
-    'path'=>'',
-    'view'=>'home',
-    'name'=>'home',
-    ),
+  ...includes('mpm/auth/urls'),
+ array(
+  'path'=>'',
+  'view'=>'home',
+  'name'=>'home',
+  ),
 ];
 
