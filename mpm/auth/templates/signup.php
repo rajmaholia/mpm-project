@@ -13,7 +13,6 @@ if(!defined('SECURE')) exit('<h1>Access Denied</h1>');
   <meta http-equiv="Pragma" content="no-cache" />
 </head>
 <body>
-
 <div class="container">
  <div class="form-container ">
    <h1>Register</h1>
