@@ -1,0 +1,83 @@
+<?php/*
+namespace models;
+class Model {
+
+  public function migrate(){
+    //create or alter the table
+  
+  }
+  
+  public function create() {
+    
+  }
+  
+  public function read() {
+    "SELECT * FROM $this"
+  }
+  
+  public function edit() {
+    
+  }
+  
+  public function delete() {
+    
+  }
+}
+
+class Field {
+  function _construct($label) {
+   
+  }
+}
+
+
+class TextField extends Field{
+  function __construct(){
+    
+  }
+  
+}
+
+
+function executeSql($conn,$sql) {
+  $result = mysqli_query($conn,$sql);
+}
+
+class Field {
+  public function create_field(){
+    
+  }
+}
+
+
+class InputField extends Field {
+ 
+  public $label,$showLabel,$lap,$placeholder,$max_length,$type,$name,$required,$value,$error_list,$multiple;
+  
+  function __construct($label,$max_length=250,$showLabel=true,$lap=false,$placeholder="",$required=true,$value='',$error_list=array(),$multiple=''){
+      $this->required = $required;
+      $this->value = $value;
+      $this->label = $label;
+      $this->max_length = $max_length;
+      $this->showLabel = $showLabel;
+      $this->lap = $lap;
+      $this->placeholder = $placeholder;
+      $this->type = "text";
+      $this->multiple = $multiple;
+  }
+  
+  public function setName($n){
+    $this->name = $n;
+  }
+  public function setValue($value){
+    $this->value = $value;
+  }
+  public function setErrorList($errors){
+    $this->error_list = $errors;
+  }
+  public function create_field(){
+    $required = $this->required==true?"not null":"";
+    $sql = "$this->name varchar($max_length) $required ";
+  }
+}
+*/

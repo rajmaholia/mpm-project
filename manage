@@ -1,0 +1,67 @@
+<?php
+if(php_sapi_name()!='cli' && isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI']=="/manage") {
+  exit("<h1>Access Denied </h1> ");
+}
+require_once 'config/settings.php';
+
+$arguments = $argv;
+switch($arguments[1]) {
+  case 'migrate':
+    $db = DATABASE;
+    list($username,$password,$server,$dbname) = array($db['username'],$db['password'],$db['host'],$db['database']);
+    $conn = mysqli_connect($server,$username,$password);
+    if(!$conn){
+      exit("Couldn't connect to database");
+    }
+    if(!mysqli_query($conn,"CREATE DATABASE IF NOT EXISTS $dbname"))
+    {
+      exit("Can't Create Database ".$dbname);
+    } else {
+    mysqli_query($conn,"Use ".$dbname);
+    foreach($db['load_files'] as $file){
+    echo "Loading : ".$file ."\n";
+    $query = '';
+    $sqlScript = file($file);
+    foreach ($sqlScript as $line)	{
+      $startWith = substr(trim($line), 0 ,2);
+      $endWith = substr(trim($line), -1 ,1);
+	    if (empty($line) || $startWith == '--' || $startWith == '/*' || $startWith == '//') {
+		        continue;
+	     }
+	     $query = $query . $line;
+	     if ($endWith == ';') {
+		     mysqli_query($conn,$query) or die('Problem in executing the SQL query' . $query);
+		     $query= '';		
+	      }//endswith
+      }//foreach reading file line be line
+      echo "Loaded : ".$file ."\n\n";
+    }//for each to get files
+  }//else of create database
+  mysqli_close($conn);
+  break;
+  
+  case 'createadmin':
+    if(!isset($arguments[2]) || !isset($arguments[3]) || !isset($arguments[4])){
+        exit("\nUsage : php manage createadmin <username> <password> <email>\n\n");
+    }
+    $admin_username = $arguments[2];
+    $admin_password = $arguments[3];
+    $admin_password = password_hash($admin_password, PASSWORD_DEFAULT);
+    $admin_email = $arguments[4];
+    $db = DATABASE;
+    list($username,$password,$server,$dbname) = array($db['username'],$db['password'],$db['host'],$db['database']);
+    $conn = mysqli_connect($server,$username,$password);
+   
+    if(!$conn){
+      exit("Couldn't connect to database");
+    }
+    if(mysqli_num_rows(mysqli_query($conn," select schema_name from information_schema.schemata where schema_name = '$dbname'"))>0) {
+      mysqli_query($conn,"Use ".$dbname);
+      echo (mysqli_query($conn,"insert into User (username,password,email,is_staff) values('$admin_username','$admin_password','$admin_email',b'1')"))?"\nSuperUser Created \n":"\nCould not create Super User\n";
+      exit();
+    } else {
+      echo "\nMigration Not Applied \n";
+      echo "Please Run `php manage migrate` Command\n\n";
+    }
+}
+?>
