@@ -87,6 +87,8 @@ switch($arguments[1]) {
       exit("Database not configured Properly\n");
     }
     $migrations = glob($app_name."/migrations/*.php");
+    if(count($migrations)==0) exit("migrations not available for '$app_name'\n\n");
+    
     foreach($migrations as $file){
       require_once($file);
       $sql = trim($sql);
