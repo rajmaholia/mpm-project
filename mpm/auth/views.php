@@ -52,7 +52,7 @@ function signup($server){
     }
   }
   }
-  return render($server,'mpm/auth/templates/login.php', array('form'=>$form));
+  return render($server,'mpm/auth/templates/signup.php', array('form'=>$form));
 }
 
 function logout($server){
