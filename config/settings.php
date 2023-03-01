@@ -1,4 +1,5 @@
 <?php 
+if(php_sapi_name()!='cli' && !defined('SECURE')) exit('<h1>Access Denied</h1>'); 
 /***** Settings "********/
 define("PROJECT_NAME","MPM_PROJECT");
 define("UPLOAD_PATH",'uploads/');
