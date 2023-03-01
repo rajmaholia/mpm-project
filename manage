@@ -3,42 +3,53 @@ if(php_sapi_name()!='cli' && isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST
   exit("<h1>Access Denied </h1> ");
 }
 require_once 'config/settings.php';
-
 $arguments = $argv;
+
 switch($arguments[1]) {
+  case 'serve':
+    exec('php -S localhost:8080');
+    break;
+    
   case 'migrate':
     $db = DATABASE;
     list($username,$password,$server,$dbname) = array($db['username'],$db['password'],$db['host'],$db['database']);
     $conn = mysqli_connect($server,$username,$password);
     if(!$conn){
-      exit("Couldn't connect to database");
+      exit("Couldn't connect to database server");
     }
+    if(empty($dbname)) exit("[ERROR] Database name not set in config/settings.php\n");
+    
     if(!mysqli_query($conn,"CREATE DATABASE IF NOT EXISTS $dbname"))
     {
       exit("Can't Create Database ".$dbname);
     } else {
     mysqli_query($conn,"Use ".$dbname);
     foreach($db['load_files'] as $file){
-    echo "Loading : ".$file ."\n";
-    $query = '';
-    $sqlScript = file($file);
-    foreach ($sqlScript as $line)	{
-      $startWith = substr(trim($line), 0 ,2);
-      $endWith = substr(trim($line), -1 ,1);
-	    if (empty($line) || $startWith == '--' || $startWith == '/*' || $startWith == '//') {
-		        continue;
-	     }
-	     $query = $query . $line;
-	     if ($endWith == ';') {
-		     mysqli_query($conn,$query) or die('Problem in executing the SQL query' . $query);
-		     $query= '';		
-	      }//endswith
-      }//foreach reading file line be line
-      echo "Loaded : ".$file ."\n\n";
-    }//for each to get files
-  }//else of create database
-  mysqli_close($conn);
-  break;
+      echo "Loading : ".$file ."\n";
+      $query = '';
+      $sqlScript = file($file);
+      foreach ($sqlScript as $line)	{
+        $startWith = substr(trim($line), 0 ,2);
+        $endWith = substr(trim($line), -1 ,1);
+  	    if (empty($line) || $startWith == '--' || $startWith == '/*' || $startWith == '//') {
+  		        continue;
+  	     }
+  	     $query = $query . $line;
+  	     if ($endWith == ';') {
+  	       try{
+  		       mysqli_query($conn,$query);
+  	       }catch(Exception $e){
+  		       echo "\n[ERROR]\n Problem in executing the SQL query :\n\t\"" . trim($query) ."\" \n\n";
+  		       echo "REASON : ".mysqli_error($conn)."\n\n";
+  		     $query= '';		
+  	       }
+  	      }//endswith
+        }//foreach reading file line be line
+        echo "Loaded : ".$file ."\n\n";
+      }//for each to get files
+    }//else of create database
+    mysqli_close($conn);
+    break;
   
   case 'createadmin':
     if(!isset($arguments[2]) || !isset($arguments[3]) || !isset($arguments[4])){
@@ -63,5 +74,35 @@ switch($arguments[1]) {
       echo "\nMigration Not Applied \n";
       echo "Please Run `php manage migrate` Command\n\n";
     }
-}
+    break;
+  
+  case 'makemigrations':
+    echo "\n";
+    $app_name = $arguments[2];
+    if(!isset($app_name)) exit("Usage :  `php manage makemigrations <app>\n");
+    $db = DATABASE;
+    try{
+      $conn = mysqli_connect($db['host'],$db['username'],$db['password'],$db['database']);
+    }catch(Exception $e) {
+      exit("Database not configured Properly\n");
+    }
+    $migrations = glob($app_name."/migrations/*.php");
+    foreach($migrations as $file){
+      require_once($file);
+      $sql = trim($sql);
+      echo "Running Migration for  ".$file." . . .\n";
+      try {
+        mysqli_query($conn,$sql);
+        echo("Success  : Migrations ".$file." Applied\n");
+      } catch(Exception $e) {
+        echo "Error : ".mysqli_error($conn)."\n";
+      }//try catch
+    }
+    echo "\n";
+  mysqli_close($conn);
+  break;
+  
+  default:
+    exit("Command not found : ".$arguments[1]."\n");
+}//switch
 ?>
