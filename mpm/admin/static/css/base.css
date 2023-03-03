@@ -1,0 +1,17 @@
+*{
+  font-family: serif !important;
+}
+
+.navbar {
+  text-align: center !important;
+}
+
+.navbar-brand {
+}
+a {
+  text-decoration: none !important;
+}
+
+.group-item  a {
+  color:#b70b46
+}

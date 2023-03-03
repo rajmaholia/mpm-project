@@ -25,7 +25,6 @@ function db_insert($table,array $data) {
   $values = array_map("quote",array_values($data));
   $values = join(',',array_values($values));
   $sql = "INSERT INTO $table ($keys) values($values)";
-  echo $sql;
   if(!mysqli_query($conn,$sql)){
     echo mysqli_error($conn);
   };

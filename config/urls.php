@@ -10,7 +10,8 @@ array(
   ),*/
 
 $urlpatterns =  [
-  ...includes('mpm/auth/urls'),
+  ...includes('mpm/admin/urls'),//Admin Urls
+  ...includes('mpm/auth/urls'),//Authentication
  array(
   'path'=>'',
   'view'=>'home',

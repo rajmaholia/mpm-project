@@ -11,6 +11,12 @@ function includes($urlfilepath) {
   return $urlpatterns;
 }
 
+function login_required($login_url_name='login') {
+  global $user;
+  if($user->id==null) redirect(reverse($login_url_name));
+}
+
+
 function render($server,$filename, $vars = null) {
   if (is_array($vars) && !empty($vars)) {
     extract($vars);
