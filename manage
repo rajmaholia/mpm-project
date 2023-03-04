@@ -104,6 +104,25 @@ switch($arguments[1]) {
   mysqli_close($conn);
   break;
   
+  case 'createapp':
+    echo "\n";
+    $app_name = $arguments[2];
+    if(!isset($app_name)) exit("Usage :  `php manage createapp <app>\n");
+    try {
+      mkdir("$app_name/");
+      $file_data_common = "<?php \n if(!defined('SECURE')) exit('<h1>Access Denied</h1>');\n\n";
+      $files = ["views.php","forms.php","urls.php"];
+      foreach($files as $file) {
+        $extra=($file=="urls.php")?"\$urlpatterns = [\n\n ]":"";
+        $file = fopen("$app_name/$file","w+");
+        fwrite($file,$file_data_common.$extra);
+        fclose($file);
+      }
+    } catch(Exception $e) {
+      echo $e->getMessage();
+    }
+    break;
+    
   default:
     exit("Command not found : ".$arguments[1]."\n");
 }//switch
