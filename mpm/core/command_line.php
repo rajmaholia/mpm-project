@@ -3,6 +3,7 @@ if(php_sapi_name()!='cli' && isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST
   exit("<h1>Access Denied </h1> ");
 }
 require_once 'config/settings.php';
+require_once 'mpm/core/sql_reader.php';
 function execute_from_command_line($arguments)
 {
 switch($arguments[1]) {
@@ -23,29 +24,9 @@ switch($arguments[1]) {
     {
       exit("Can't Create Database ".$dbname);
     } else {
-    mysqli_query($conn,"Use ".$dbname);
-    foreach($db['load_files'] as $file){
-      echo "Loading : ".$file ."\n";
-      $query = '';
-      $sqlScript = file($file);
-      foreach ($sqlScript as $line)	{
-        $startWith = substr(trim($line), 0 ,2);
-        $endWith = substr(trim($line), -1 ,1);
-  	    if (empty($line) || $startWith == '--' || $startWith == '/*' || $startWith == '//') {
-  		        continue;
-  	     }
-  	     $query = $query . $line;
-  	     if ($endWith == ';') {
-  	       try{
-  		       mysqli_query($conn,$query);
-  	       }catch(Exception $e){
-  		       echo "\n[ERROR]\n Problem in executing the SQL query :\n\t\"" . trim($query) ."\" \n\n";
-  		       echo "REASON : ".mysqli_error($conn)."\n\n";
-  		     $query= '';		
-  	       }
-  	      }//endswith
-        }//foreach reading file line be line
-        echo "Loaded : ".$file ."\n\n";
+      mysqli_query($conn,"Use ".$dbname);
+      foreach($db['load_files'] as $file){
+        read_from_file($conn,$file);//foreach reading file line be line
       }//for each to get files
     }//else of create database
     mysqli_close($conn);
@@ -94,7 +75,7 @@ switch($arguments[1]) {
       $sql = trim($sql);
       echo "Running Migration for  ".$file." . . .\n";
       try {
-        mysqli_multi_query($conn,$sql);
+        read_query($conn,$sql);
         echo("Success  : Migrations ".$file." Applied\n\n");
       } catch(Exception $e) {
         echo "Error : ".mysqli_error($conn)."\n\n";
