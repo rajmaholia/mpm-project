@@ -17,7 +17,7 @@ define('DATABASE',[
   'username' => "root",
   'password' => "root",
   'host'     => "0.0.0.0:3306",
-  'database' => "mtest",//databasse name;
+  'database' => "",//databasse name;
   'load_files'=>array('mpm/auth/User.sql'),
 ]);
 
