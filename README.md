@@ -67,77 +67,74 @@ This is a micro-framework built with php
 
 
 
-2. How to Write Logics.
- in <app_name>/views.php.
- _______________________________________
-| <app_name>/views.php                |
-|_____________________________________|
-| <?php if(!defined('SECURE'))        |
-|   exit("<h1>Access Denied<h1>");        |
-|                                     |
-|function view_name($server, array $args) {                              |  |
-| $data = array('a'=>'b'); //Data |passed to  template                                     
-| /* Write  Your Logic Here */        |
-|   return render($server,'templates_path',   |$data);  //to render template        |
-|            ( or )                          |
-|   return "Hello"; //render string          |
-|}                                           |
- _____________________________________________
- NOTE : $args and $data are optional associative array
-  • $args  contains group_name and value pairs
-    Capture from Urls  Patterns
-   - EG : 
-    "http://localhost:8080/<?P<name>\w+>/" is matched against "http://localhost:8080/raaz/"  
-    $args will be array("name"=>"raaz");
+2.How to Write Logics.
+ 
+  - Navigate to  `<app_name>/views.php`.
    
-   • $data contains values that you want to pass to template
-    - EG :
-    $data = array("name"=>"Raaz","Username"=>"xyz");
-    in corresponding template specified in render() function we can access these values - like 
-    
+```
+<?php if(!defined('SECURE'))        
+    exit("<h1>Access Denied<h1>");         
+                                       
+ function view_name($server, array $args) {                                  
+  $data = array('a'=>'b'); //Data  passed to  template                                     
+  /* Write  Your Logic Here */         
+    return render($server,'templates_path',    $data);  //to render template         
+             ( or )                           
+    return "Hello"; //render string           
+ }  
+```
+  - NOTE : $args and $data are optional associative array
+  - $args  contains group_name and value pairs
+    Capture from Urls  Patterns
+    * EG : `http://localhost:8080/<?P<name>\w+>/` is matched against `http://localhost:8080/raaz/`
+    $args will be `array("name"=>"raaz")`
+   
+  - $data contains values that you want to pass to template
+    * EG : if
+    `$data = array("name"=>"Raaz","Username"=>"xyz");` then 
+    in corresponding template specified in `render()` function we can access these values - like 
+    ```
     <?php # templates/abc.php
           ----
           echo $name;
           echo $Username;
           ----- ?>
+    ```
   
-  
-3) HOW to Write $urlpatterns in  <app_name>/urls.php
-
- ___________________________________________
-| <app_name>/urls.php                        |
-|____________________________________________|
-| <?php if(!defined('SECURE'))               |
-|   exit("<h1>Access Denied");               |
-|                                            |
-|$urlpatterns = [                            | |     array(                                 |
-|      'path'=>"/path/to/",                  |
-|      "view"=>"name_of_logic_function",     |
-|      'name'=>"reverse_for_url"             |
-|     ),                                     |
-| ];                                         |
- ____________________________________________
+3.HOW to Write $urlpatterns
+  * Navigate to  `<app_name>/urls.php`
+``` 
+  <?php if(!defined('SECURE'))                
+    exit("<h1>Access Denied");                
+                                              
+ $urlpatterns = [                                    array(                                  
+       'path'=>"/path/to/",                   
+       "view"=>"name_of_logic_function",      
+       'name'=>"reverse_for_url"              
+      ),                                      
+  ];        
+```
+ 
     
     
- 4) HOW to Write forms in <app_name>/forms.php
+ 4. HOW to Write forms in
+    * Navigate to `<app_name>/forms.php`
+ ```
+  <?php if(!defined('SECURE'))                 exit("<h1>Access Denied");                 
+   require_once "mpm/forms.php";             
+                                             
+  class MyForm extends forms\Form {          
+   public $prop1,$prop2;                     
+   public function __construct() {           
+     $this->prop1 = new                        forms\InputField("Label");                 
+     $this->prop2 = new                        forms\PasswordField("Label");              
+   }                                         
+  }            
+ ```
+   
+    * Now Create  A Instanse of this form
+   `$form = new MyForm();`
  
-  __________________________________________
- | <app_name>/forms.php                     |
- |__________________________________________|
- |<?php if(!defined('SECURE'))              | |exit("<h1>Access Denied");                |
- | require_once "mpm/forms.php";            |
- |                                          |
- |class MyForm extends forms\Form {         |
- | public $prop1,$prop2;                    |
- | public function __construct() {          |
- |   $this->prop1 = new                     | |forms\InputField("Label");                |
- |   $this->prop2 = new                     | |forms\PasswordField("Label");             |
- | }                                        |
- |}                                         |
- |__________________________________________|
- // Now Create  A Instanse 
- $form = new MyForm();
- 
- // to render in template
-// Make instanse `$form`  accessible in template
- <?php echo $form->render_form(); ?>
+    * to render this form in template Make instanse `$form`  accessible in template
+    And then write 
+`<?php echo $form->render_form(); ?>`
