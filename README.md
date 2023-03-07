@@ -28,22 +28,22 @@ This is a micro-framework built with php
 - Note : MYSQL SERVICE NEEDED RUN FIRST `$ mysqld`.
 
 - Run `$ php manage serve`
-    this is serve your project on  `http://localhost:8080/`
+    this will serve your project on  `http://localhost:8080/`
 
-- You will see a Home page with built Authentication System.
+- You will see a Home page with builtin Authentication System.
 
-- To Create an app Run `$ php manage createapp <app_name>`
- * this will create a directory in Current Directory named `<app_name>`
- * In this `<app_name>` following directories or files will be automatically Created :
-  + `forms.php` (create your  customise form structure )
-  + `views.php` (Create Your Logics Here for the app)
-  + `urls.php` (Create Url Patterns here)
-  + `migrations/` (write your Database          Tables and Structural Changes
+- To Create an app Run `$ php manage createapp   <app_name>`
+  * this will create a directory in Current Directory named `<app_name>`
+  * In this `<app_name>` following directories   or files will be automatically Created :
+    + `forms.php` (create your  customise form structure )
+    + `views.php` (Create Your Logics Here for the app)
+    + `urls.php` (Create Url Patterns here)
+    + `migrations/` (write your Database          Tables and Structural Changes
       to apply change to database Run 
       `$ php manage makemigrations <app_name>`
-    )
+      )
     
-  + `migrations/initial.php` (pre-written file of migration you can write another migrations file named according to your choice)
+    + `migrations/initial.php` (pre-written file of migration you can write another migrations file named according to your choice)
   
  * for templates , create `templates/` folder and create `templates/*.php` files 
 
