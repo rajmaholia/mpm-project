@@ -76,7 +76,7 @@ to track your project.
 | <app_name>/views.php                |
 |_____________________________________|
 | <?php if(!defined('SECURE'))        |
-|   exit("<h1>Access Denied");        |
+|   exit("<h1>Access Denied<h1>");        |
 |                                     |
 |function view_name($server, array $args) {                              |  |
 | $data = array('a'=>'b'); //Data |passed to  template                                     
