@@ -117,21 +117,21 @@ This is a micro-framework built with php
  
     
     
- 4. HOW to Write forms in
+ 4. HOW to write forms 
     * Navigate to `<app_name>/forms.php`
- ```
-  <?php if(!defined('SECURE'))                 exit("<h1>Access Denied");                 
-   require_once "mpm/forms.php";             
-                                             
-  class MyForm extends forms\Form {          
-   public $prop1,$prop2;                     
-   public function __construct() {           
-     $this->prop1 = new                        forms\InputField("Label");                 
-     $this->prop2 = new                        forms\PasswordField("Label");              
-   }                                         
-  }            
- ```
-   
+     ```
+      <?php if(!defined('SECURE'))                 exit("<h1>Access Denied");                 
+       require_once "mpm/forms.php";             
+                                                 
+      class MyForm extends forms\Form {          
+       public $prop1,$prop2;                     
+       public function __construct() {           
+         $this->prop1 = new                        forms\InputField("Label");                 
+         $this->prop2 = new                        forms\PasswordField("Label");              
+       }                                         
+      }            
+     ```
+
     * Now Create  A Instanse of this form
    `$form = new MyForm();`
  
