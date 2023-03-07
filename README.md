@@ -13,8 +13,7 @@ This is a micro-framework built with php
 - delete .git folder in this repository.
   `$ rm -r .git`
 
-- now start your project you can initialise git
-to track your project.
+- now start your project you can initialise git to track your project.
  `$ git init`
 
 - Run `php manage migrate`
@@ -33,44 +32,44 @@ to track your project.
 
 - You will see a Home page with built Authentication System.
 
--To Create an app Run `$ php manage createapp <app_name>`
- -- this will create a directory in Current Directory named `<app_name>`
- -- In this `<app_name>` following directories or files will be automatically Created :
-   i) `forms.php` (create your  customise form structure )
-   ii) `views.php` (Create Your Logics Here for the app)
-   iii) `urls.php` (Create Url Patterns here)
-   iv) `migrations/` (write your Database         Tables and Structural Changes
+- To Create an app Run `$ php manage createapp <app_name>`
+ * this will create a directory in Current Directory named `<app_name>`
+ * In this `<app_name>` following directories or files will be automatically Created :
+  + `forms.php` (create your  customise form structure )
+  + `views.php` (Create Your Logics Here for the app)
+  + `urls.php` (Create Url Patterns here)
+  + `migrations/` (write your Database          Tables and Structural Changes
       to apply change to database Run 
       `$ php manage makemigrations <app_name>`
     )
     
-   v) `migrations/initial.php` (pre-written file of migration you can write another migrations file named according to your choice)
-   [How to write migrations ]
-    $sql = "
-    WRITE YOUR MYSQL QUERIES HERE SEPERATED BY (;) incase of MULTIPLE QUERIES 
-    ";
-   
-   vi) for templates create `templates/` folder and create `templates/*.php` files 
+  + `migrations/initial.php` (pre-written file of migration you can write another migrations file named according to your choice)
+  
+ * for templates , create `templates/` folder and create `templates/*.php` files 
 
-- connect your app to main project
-  i) in config/urls.php file look up for `$urlpatterns`
-   array add your app's url like -
+ * connect your app to main project
+  + in config/urls.php file look up for `$urlpatterns`.
+   array add your app's url like 
+  ```
    $urlpatterns = [
       ............
       ...includes('<app_name>/urls'), 
      //(...) are must to add before includes()
       ..........
     ];
-  
-  ii)  in `config/settings.php` 
+  ```
+  +  in `config/settings.php` 
+  ```
     APPS = [
      .... Builtinapps ....
     '<app_name>',
     ],
+  ```
 
----- NOW YOU ARE DONE ----
+### Now You Are Done ###
 
-2) How to Write Logics.
+
+2. How to Write Logics.
  in <app_name>/views.php.
  _______________________________________
 | <app_name>/views.php                |
