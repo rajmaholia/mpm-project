@@ -3,7 +3,7 @@ This is a micro-framework built with php
 
 # Documentation
 
-1) How to Use
+1. How to Use
 - clone the repository
   `$ git clone https://github.com/Rajryan/mpm_project.git   <verbose_name>`
 
@@ -19,12 +19,12 @@ to track your project.
 
 - Run `php manage migrate`
   This will create default User Table with these field :
-  i) username - a varchar field
-  ii) password - varchar(255) field
-  iii) email - varchar field
-  iv) mobile number - bigint field 
-  v) is_staff - BIT FIELD 0 OR 1
-  vi) joined_on - Datetime Field with default current_timestamp.
+  * username \- a varchar field
+  * password \- varchar(255) field
+  * email \- varchar field
+  * mobile number \- bigint field 
+  * is_staff \- BIT FIELD 0 OR 1
+  * joined_on \- Datetime Field with default current_timestamp.
 
 - Note : MYSQL SERVICE NEEDED RUN FIRST `$ mysqld`.
 
