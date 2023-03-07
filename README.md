@@ -72,16 +72,16 @@ to track your project.
 
 2) How to Write Logics.
  in <app_name>/views.php.
- ____________________________________________
-| <app_name>/views.php                       |
-|____________________________________________|
-| <?php if(!defined('SECURE'))               |
-|   exit("<h1>Access Denied");               |
-|                                            |
-|function view_name($server, array $args) {  | |                                            |
-| $data = array('a'=>'b'); //Data passed to  | template                                     |
-| /* Write  Your Logic Here */               |
-|   return render($server,'templates_path',  | |$data);  //to render template               |
+ _______________________________________
+| <app_name>/views.php                |
+|_____________________________________|
+| <?php if(!defined('SECURE'))        |
+|   exit("<h1>Access Denied");        |
+|                                     |
+|function view_name($server, array $args) {                              |  |
+| $data = array('a'=>'b'); //Data |passed to  template                                     
+| /* Write  Your Logic Here */        |
+|   return render($server,'templates_path',   |$data);  //to render template        |
 |            ( or )                          |
 |   return "Hello"; //render string          |
 |}                                           |
