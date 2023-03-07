@@ -48,25 +48,23 @@ This is a micro-framework built with php
  * for templates , create `templates/` folder and create `templates/*.php` files 
 
  * connect your app to main project
-  + in config/urls.php file look up for `$urlpatterns`.
-   array add your app's url like 
-  ```
-   $urlpatterns = [
-      ............
-      ...includes('<app_name>/urls'), 
-     //(...) are must to add before includes()
-      ..........
-    ];
-  ```
-  +  in `config/settings.php` 
-  ```
-    APPS = [
-     .... Builtinapps ....
-    '<app_name>',
-    ],
-  ```
+   + in config/urls.php file look up for        `$urlpatterns` array and  add your app's url patterns  like  this :
+    ```
+     $urlpatterns = [
+        ............
+        ...includes('<app_name>/urls'), 
+       //(...) are must to add before includes()
+        ..........
+      ];
+    ```
+   +  in `config/settings.php` 
+    ```
+      APPS = [
+       .... Builtinapps ....
+      '<app_name>',
+      ],
+    ```
 
-### Now You Are Done ###
 
 
 2. How to Write Logics.
