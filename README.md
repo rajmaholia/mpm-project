@@ -166,4 +166,5 @@ This is a micro-framework built with php
     ```
 
 > manage
-  - This File Handles CommandLine .  
+  - This File Handles CommandLine .
+  - check
