@@ -138,3 +138,32 @@ This is a micro-framework built with php
     * to render this form in template Make instanse `$form`  accessible in template
     And then write 
 `<?php echo $form->render_form(); ?>`
+
+
+## Reference
+> index.php
+
+  - this root file this handles all requests    and execute corresponding logic and return   String or Template
+
+  - It gets the Request URI Using               $_SERVER["Request_URI"] and loop throw      urlpatterns listeed in  config/urls.php in   $urlpatterns Variable and check Each Url    Array's `path` Keys value to find a url 
+    matching with `$_SERVER['Request_URI']`
+
+  - MATCHING REGEX = `@urlpath@`
+  
+  - If It finds any match it check for          urlpaths corresponding `view` name and      call it. with `$server` default argument    that is `$_SERVER`
+
+  - Actually Every `view function` returns a    string
+
+  - So in `index.php` `view` function is just   echoed by `echo` command like               `echo(view_name($_SERVER))`
+ 
+  - If there is group names in Url , they are   just stored in a associative array and      then function is called like this :
+    ``` 
+      $groups = array_filter($matches,'is_string',ARRAY_FILTER_USE_KEY)
+      
+      ....
+      
+      echo view_name($_SERVER,$groups);
+    ```
+
+> manage
+  - 
