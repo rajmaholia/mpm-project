@@ -51,4 +51,16 @@ function cleaned_data($data){
   return $cleaned_data;
 }
 
+
+class Validator {
+  public function __construct($regex,$value){
+    $this->regex = $regex;
+    $this->value = $value
+  }
+  
+  public function is_valid(){
+    $regex = "@".$this->regex."@";
+    preg_match($regex,$this->value);
+  }
+}
 ?>

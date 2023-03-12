@@ -4,8 +4,10 @@ if(php_sapi_name()!='cli' && isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST
 }
 require_once 'config/settings.php';
 require_once 'mpm/core/sql_reader.php';
+
 function execute_from_command_line($arguments)
 {
+echo "\n";
 switch($arguments[1]) {
   case 'serve':
     exec('php -S localhost:8080');
@@ -58,7 +60,6 @@ switch($arguments[1]) {
     break;
   
   case 'makemigrations':
-    echo "\n";
     $app_name = $arguments[2];
     if(!isset($app_name)) exit("Usage :  `php manage makemigrations <app>\n");
     $db = DATABASE;
@@ -85,8 +86,25 @@ switch($arguments[1]) {
   mysqli_close($conn);
   break;
   
+  
+  case 'createproject':
+    /*future release
+    if(isset($arguments[2])) $project_name = $arguments[2];
+   else $project_name = "config";
+    if(file_exists($project_name)) exit("Project Exists With This Name `config` \n");*/
+    $project_name = "config";
+    
+    if(file_exists($project_name)) exit("Project Exists\n");
+    mkdir("$project_name");
+    $files = glob("mpm/conf/project_templates/project_name/*_tpl");
+    $files .= glob("mpm/conf/project_templates/*_tpl");
+    foreach($files as $file){
+     $new_file_name = explode("_tpl",$file)[0];
+     echo copy($file,$project_name."/".basename($new_file_name))?"Done...\n":"[Error]\n";
+   }
+  break;
+  
   case 'createapp':
-    echo "\n";
     $app_name = $arguments[2];
     if(!isset($app_name)) exit("Usage :  `php manage createapp <app>\n");
     try {
@@ -112,6 +130,7 @@ switch($arguments[1]) {
     break;
     
   default:
-    exit("Command not found : ".$arguments[1]."\n");
+    exit("Command not found : ".$arguments[1]);
 }//switch
+echo "\n";
 }//function
