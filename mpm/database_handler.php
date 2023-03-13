@@ -1,17 +1,20 @@
 <?php
-if(!defined('SECURE')) exit('<h1>Access Denied</h1>');
+if(!defined('SECURE') && php_sapi_name()!='cli') exit('<h1>Access Denied</h1>');
 require_once 'mpm/utils.php';
 //if(php_sapi_name()!='cli') require_once 'config/settings.php';
 
 $database_settings = DATABASE;
-function db_connect(){
+
+function db_connect($database=true){
   global $database_settings;
   $username = $database_settings['username'];
   $password = $database_settings['password'];
   $host     = $database_settings['host'];
+  $port     = $database_settings['port'];
   $dbname   = $database_settings['database'];
-  $conn     = mysqli_connect($host,$username,$password,$dbname);
-  
+  if($database==true) 
+    $conn  = mysqli_connect("$host:$port",$username,$password,$dbname);
+  else $conn  = mysqli_connect("$host:$port",$username,$password);
   if(!$conn) {
     echo "<h1>Database Could not sync </h1>";
     echo mysqli_error($conn);
@@ -134,4 +137,12 @@ function db_column_exists($table,$data){
   } else {
     return false;
   }
+}
+
+function table_exists($db,$table) {
+  $conn = db_connect(database:false);
+  $result = mysqli_query($conn,"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='$db' AND TABLE_NAME='$table'");
+  $res =  mysqli_num_rows($result)>0?true:false;
+  mysqli_close($conn);
+  return $res;
 }

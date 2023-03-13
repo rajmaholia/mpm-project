@@ -37,7 +37,7 @@ function redirect($path) {
   if(substr($path,0,1)=="/") {
     $path = substr($path,1);
   }
-  header("Location:".BASE_URL.$path);
+ header("Location:".BASE_URL.$path);
 }
 
 function http_redirect($url) {

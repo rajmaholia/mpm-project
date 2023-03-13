@@ -30,7 +30,7 @@ if(!defined('SECURE')) exit('<h1>Access Denied</h1>');?>
         </div>
         <div class="group-items bg-secondary">
           <?php foreach($models as $model) {?>
-          <div class="group-item border p-1">  <a href="<?php echo reverse('object_list',array($model));?>" class="text-decoration-none "><?php echo $model; ?></a>
+          <div class="group-item border p-1">  <a href="<?php echo reverse('object_list',array($model));?>" class="text-decoration-none text-white"><?php echo $model; ?></a>
           </div>
           <?php } ?>
         </div>

@@ -1,9 +1,11 @@
 <?php
-if(php_sapi_name()!='cli' && isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI']=="/manage") {
+if(php_sapi_name()!='cli') {
   exit("<h1>Access Denied </h1> ");
 }
 require_once 'config/settings.php';
 require_once 'mpm/core/sql_reader.php';
+require_once 'mpm/database_handler.php';
+
 
 function execute_from_command_line($arguments)
 {
@@ -15,8 +17,8 @@ switch($arguments[1]) {
     
   case 'migrate':
    $db = DATABASE;
-    list($username,$password,$server,$dbname) = array($db['username'],$db['password'],$db['host'],$db['database']);
-    $conn = mysqli_connect($server,$username,$password);
+   $conn = db_connect(database:false);
+   $dbname = $db['database'];
     if(!$conn){
       exit("Couldn't connect to database server");
     }
@@ -42,21 +44,30 @@ switch($arguments[1]) {
     $admin_password = $arguments[3];
     $admin_password = password_hash($admin_password, PASSWORD_DEFAULT);
     $admin_email = $arguments[4];
-    $db = DATABASE;
-    list($username,$password,$server,$dbname) = array($db['username'],$db['password'],$db['host'],$db['database']);
-    $conn = mysqli_connect($server,$username,$password);
-   
-    if(!$conn){
-      exit("Couldn't connect to database");
+    
+    $dbname = DATABASE["database"];
+    try {
+      $conn = db_connect();
     }
-    if(mysqli_num_rows(mysqli_query($conn," select schema_name from information_schema.schemata where schema_name = '$dbname'"))>0) {
-      mysqli_query($conn,"Use ".$dbname);
-      echo (mysqli_query($conn,"insert into User (username,password,email,is_staff) values('$admin_username','$admin_password','$admin_email',b'1')"))?"\nSuperUser Created \n":"\nCould not create Super User\n";
+    catch(Exception $e) {
+      echo $e->getMessage()."\n";
+      echo("Run `php manage migrate`.\n");
+      exit("Quitting ... \n");
+    }
+    
+    if(!table_exists($dbname,"User")){
+      echo("Database  not Configured Properly \n");
+      echo("Run `php manage migrate`.\n");
       exit();
-    } else {
-      echo "\nMigration Not Applied \n";
-      echo "Please Run `php manage migrate` Command\n\n";
     }
+    try {
+      $response = mysqli_query($conn,"insert into User (username,password,email,is_staff) values('$admin_username','$admin_password','$admin_email',b'1')");
+    } catch(Exception $e) {
+       echo $e->getMessage();
+       exit("\nQuitting ... \n");
+    }
+    echo "SuperUser Created Successfully\n ";
+    mysqli_close($conn);
     break;
   
   case 'makemigrations':
@@ -74,6 +85,11 @@ switch($arguments[1]) {
     foreach($migrations as $file){
       require_once($file);
       $sql = trim($sql);
+      if(empty($sql)){
+        echo "Migrations Not found in `$file`";
+        echo "\nSkipping....";
+        continue;
+      }
       echo "Running Migration for  ".$file." . . .\n";
       try {
         read_query($conn,$sql);
@@ -82,7 +98,7 @@ switch($arguments[1]) {
         echo "Error : ".mysqli_error($conn)."\n\n";
       }//try catch
     }
-    echo "\n";
+    echo "Done\n";
   mysqli_close($conn);
   break;
   
@@ -105,28 +121,20 @@ switch($arguments[1]) {
   break;
   
   case 'createapp':
-    $app_name = $arguments[2];
-    if(!isset($app_name)) exit("Usage :  `php manage createapp <app>\n");
-    try {
-      mkdir("$app_name/");
-      $file_data_common = "<?php \n if(!defined('SECURE')) exit('<h1>Access Denied</h1>');\n\n";
-      mkdir("{$app_name}/migrations");
-      $files = ["views.php","forms.php","urls.php","migrations/initial.php"];
-      foreach($files as $file) {
-        $extra=($file=="urls.php")?"\$urlpatterns = [\n\n ];":"";
-        if($file=="migrations/initial.php") {
-          $file_data_common = "<?php \n if(php_sapi_name()!='cli' && !defined('SECURE')) exit('<h1>Access Denied</h1>');\n\n";
-          $extra = "\$sql = \" \n\n \";";
-        }
-        $file = fopen("$app_name/$file","w+");
-        fwrite($file,$file_data_common.$extra);
-        fclose($file);
-      }
-      
-      echo "App `{$app_name}` Created Successfully \n";
-    } catch(Exception $e) {
-      echo $e->getMessage();
+    if(!isset($arguments[2])) exit("Usage :  `php manage createapp <app>`\n");
+    else $app_name = $arguments[2];
+    file_exists($app_name)?exit("App `$app_name` already Exists \n"):mkdir("$app_name/");
+    mkdir("$app_name/migrations");
+    $migration_file = glob("mpm/conf/app_templates/migrations/*_tpl")[0];
+    $files = glob("mpm/conf/app_templates/*_tpl");
+    
+    echo copy($migration_file,"$app_name/migrations/".basename("initial.php"))?"Downloaded... `migrations/initial.php`\n":"[Error]\n";
+
+    foreach($files as $file){
+      $new_file_name = basename(explode("_tpl",$file)[0]);
+      echo copy($file,$app_name."/".$new_file_name)?"Downloaded...  `$new_file_name`\n":"[Error]\n";
     }
+    echo "\nApp `$app_name` Created Successfully\n";
     break;
     
   default:

@@ -1,5 +1,5 @@
 <?php
-if(!defined('SECURE')) exit('<h1>Access Denied</h1>'); 
+if(!defined('SECURE') && php_sapi_name()!="cli") exit('<h1>Access Denied</h1>'); 
 
 function truncate($string, $limit, $pad = "...")
 {

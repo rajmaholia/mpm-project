@@ -39,10 +39,6 @@ function checkequal($data1,$data2){
   return ($data1===$data2)?true:false;
 }
 
-function checkregex($data,$regex){
-  
-}
-
 function cleaned_data($data){
   $cleaned_data = array();
   foreach($data as $key=>$value){
@@ -53,14 +49,35 @@ function cleaned_data($data){
 
 
 class Validator {
-  public function __construct($regex,$value){
-    $this->regex = $regex;
-    $this->value = $value
+  public  static function checkregex($value,$regex){
+    $regex = "@^".$regex."$@";
+    return preg_match($regex,$value);
   }
   
-  public function is_valid(){
-    $regex = "@".$this->regex."@";
-    preg_match($regex,$this->value);
+  public static function  checkequal($data1,$data2){
+    return ($data1===$data2)?true:false;
   }
+  
+  public static function checkemail($email){
+   return filter_var($email,FILTER_VALIDATE_EMAIL)?true:false;
+  }
+  
+  public static function checklength($data,$length,$fixed=false) {
+    if($fixed === true && strlen($data)!=$length) {
+      return false;
+    }else {
+      if(strlen($data) <= $length) {
+        return true;
+      } elseif(strlen($data)>$length) {
+        return false;
+      }
+    }
+  }//checklength
+
+  public static function checkempty($data){
+    $data = trim($data);
+    return empty($data)?true:false;
+  }
+  
 }
 ?>
