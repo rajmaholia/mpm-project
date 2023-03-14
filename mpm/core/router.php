@@ -13,7 +13,8 @@ class Router {
     for($i = 0;$i<count($urlpatterns);$i++) {
       if(empty(trim($urlpatterns[$i]['path'])))
         $urlpatterns[$i]['path'] = "/";
-      $pattern_matching_process_string .= ($url. '   :   '.$urlpatterns[$i]['path']."<br>");
+      $j = $i+1;
+      $pattern_matching_process_string .= ("$j. ".$urlpatterns[$i]['path']."<br>");
       $pattern = "@^".$urlpatterns[$i]['path']."$@";
       
       if(preg_match($pattern, $url,$matches)){
@@ -33,7 +34,7 @@ class Router {
       }
     } else {
       if(DEBUG===true)
-        echo(render($_SERVER,"mpm/templates/debug.php", array("no_reverse_match"=>true,'data'=>$pattern_matching_process_string))); 
+        echo(render($_SERVER,"mpm/templates/debug.php", array("no_reverse_match"=>true,'url'=>$url,'data'=>$pattern_matching_process_string))); 
       else redirect(reverse('404'));
     }
   }
