@@ -44,10 +44,15 @@ function http_redirect($url) {
   header("Location:".$url);
 }
 
+function path($url,$view,$name=null){
+  return array($url,$view,$name);
+}
+
 function reverse($name,$arguments=array()){
   //return absolute url of url_name;
   global $urlpatterns;
-  $path = array_column($urlpatterns,'path','name')[$name];
+  $path = array_column($urlpatterns,0,2)[$name];
+  //0 is urlpath and 2 is its name
   $arra = preg_split("@/@",$path,-1,PREG_SPLIT_NO_EMPTY);
   $pattern = "/[(].*?[)]/";
   $count=0;

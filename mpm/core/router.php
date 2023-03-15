@@ -8,19 +8,23 @@ class Router {
   public static function process($url,$urlpatterns){
     if(substr(trim($url),-1)!='/') $url.='/';
 
-    $paths = array_column($urlpatterns,'path');
+    $paths = array_column($urlpatterns,0);
     $pattern_matching_process_string = "";
     for($i = 0;$i<count($urlpatterns);$i++) {
-      if(empty(trim($urlpatterns[$i]['path'])))
-        $urlpatterns[$i]['path'] = "/";
+      //handler key=>$value pairs alternation in path
+      $current_url = $urlpatterns[$i][0];
+      
+      if(empty(trim($current_url)))
+        $current_url = "/";
       $j = $i+1;
-      $pattern_matching_process_string .= ("$j. ".$urlpatterns[$i]['path']."<br>");
-      $pattern = "@^".$urlpatterns[$i]['path']."$@";
+      $pattern_matching_process_string .= ("$j. ".$current_url."<br>");
+      $pattern = "@^".$current_url."$@";
       
       if(preg_match($pattern, $url,$matches)){
         $groups = array_filter($matches, "is_string", ARRAY_FILTER_USE_KEY);
-         $view_name = $urlpatterns[$i]['view'];
-         break;
+        $url_matched = $urlpatterns[$i];
+        $view_name = $urlpatterns[$i][1];
+        break;
       }
     }
 
