@@ -1,5 +1,4 @@
 <?php require 'components/header_code.php';
-      require '../database/metadata.php'
 ;?>
 <?php if(isset($_GET['table']) && isset($_GET['id'])){
   $table = $_GET['table'];

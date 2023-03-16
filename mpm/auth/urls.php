@@ -19,6 +19,11 @@ $urlpatterns = [
     name:'logout'
    ),
   path(
+    url:'/auth/password-change/',
+    view:'password_change',
+    name:'password_change'
+   ),
+  path(
     url:'/404/',
     view:'page_not_found',
     name:'404'

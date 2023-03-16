@@ -4,6 +4,8 @@ if(php_sapi_name()!='cli' && !defined('SECURE')) exit('<h1>Access Denied</h1>');
 define("PROJECT_NAME","MPM");
 
 
+define("BASE_DIR",realpath("./"));
+
 define("DEBUG",true);
 /***  APPS **/
 define("APPS",[
@@ -20,6 +22,10 @@ define('DATABASE',[
   'port'     =>"3306",
   'database' => "",//databasse name;
   'load_files'=>array('mpm/auth/User.sql'),
+]);
+
+define('TEMPLATES',[
+  'DIRS'=>array(BASE_DIR),
 ]);
 
 define("UPLOAD_PATH",'uploads/');

@@ -1,5 +1,6 @@
 <?php
 if(!defined('SECURE')) exit('<h1>Access Denied</h1>'); 
+require_once 'mpm/core/template_engine.php';
 
 function includes($urlfilepath) {
   $urlfilepath.=".php";
@@ -18,6 +19,7 @@ function login_required($login_url_name='login') {
 
 
 function render($server,$filename, $vars = null) {
+  $filename = Mpm\Core\TemplateEngine::resolve($filename);
   if (is_array($vars) && !empty($vars)) {
     extract($vars);
   }

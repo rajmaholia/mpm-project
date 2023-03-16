@@ -13,7 +13,7 @@ function admin_dashboard($server){
   global $user;
   if($user->is_staff!=1)
   redirect(reverse('admin_login'));
-  return render($server,'mpm/admin/templates/dashboard.php', array('groups'=>MODEL_GROUPS));
+  return render($server,'admin/dashboard.php', array('groups'=>MODEL_GROUPS));
 }
 
 
@@ -42,7 +42,7 @@ function admin_login($server){
       }//check user exist in staff
     }//check errors
   }//if post
-  return render($server,'mpm/admin/templates/admin_login.php', array('form'=>$form,'user'=>$user));
+  return render($server,'admin/admin_login.php', array('form'=>$form,'user'=>$user));
 }//login()
 
 function object_list($server, $arguments){
@@ -52,15 +52,15 @@ function object_list($server, $arguments){
   
   $table = $arguments['table'];
   $table_data = MODEL_METADATA[$table];
-  if(in_array($table,SITE_MODELS)) return render($server,'mpm/admin/templates/object_list.php',array('table'=>$table,'table_data'=>$table_data,'user'=>$user));
-  else return render($server,'templates/404.php');
+  if(in_array($table,SITE_MODELS)) return render($server,'admin/object_list.php',array('table'=>$table,'table_data'=>$table_data,'user'=>$user));
+  else return render($server,'404.php');
 }
 
 function object_detail($server){
   global $user;
   if($user->is_staff!=1)
   redirect(reverse('admin_login'));
-  return render($server,'mpm/admin/templates/object_detail.php',array('user'=>$user));
+  return render($server,'admin/object_detail.php',array('user'=>$user));
 }
 
 
@@ -90,7 +90,7 @@ function create_user($server){
     }
   }
   }//If POST
-  return render($server,'mpm/admin/templates/object_create.php', array('form'=>$form,'table'=>"User",'user'=>$user));
+  return render($server,'admin/object_create.php', array('form'=>$form,'table'=>"User",'user'=>$user));
 }
 
 
@@ -100,7 +100,7 @@ function object_create($server,$arguments){
   redirect(reverse('admin_login'));
   $table = $arguments['table'];
   //$table_data = MODEL_METADATA[$table];
-  if(!in_array($table,SITE_MODELS))  return render($server,'templates/404.php');
+  if(!in_array($table,SITE_MODELS))  return render($server,'404.php');
   if($table == "User") $formClass = "UserCreationForm";
   else $formClass=$table."Form";
   $form = new $formClass();
@@ -113,7 +113,7 @@ function object_create($server,$arguments){
       redirect(reverse('object_list', arguments:array($table)));
     }
   }
-  return render($server,'mpm/admin/templates/object_create.php', array('table'=>$table,'form'=>$form,'user'=>$user));
+  return render($server,'admin/object_create.php', array('table'=>$table,'form'=>$form,'user'=>$user));
 }
 
 function object_edit($server,$arguments){
@@ -122,7 +122,7 @@ function object_edit($server,$arguments){
   redirect(reverse('admin_login'));
   $table = $arguments['table'];
   //$table_data = MODEL_METADATA[$table];
-  if(!in_array($table,SITE_MODELS))  return render($server,'templates/404.php');
+  if(!in_array($table,SITE_MODELS))  return render($server,'404.php');
   if($table == "User") $formClass = $table."ChangeForm";
   else $formClass=$table."Form";
   $form = new $formClass();
@@ -138,12 +138,12 @@ function object_edit($server,$arguments){
       redirect(reverse('object_list', arguments:array($table)));
     }
   }
-  return render($server,'mpm/admin/templates/object_edit.php', array('table'=>$table,'id'=>$id,'form'=>$form,'user'=>$user));
+  return render($server,'admin/object_edit.php', array('table'=>$table,'id'=>$id,'form'=>$form,'user'=>$user));
 }
 
 function object_delete($server){
   global $user;
   if($user->is_staff!=1)
   redirect(reverse('admin_login'));
-  return render($server,'mpm/admin/templates/object_delete.php',array('user'=>$user));
+  return render($server,'admin/object_delete.php',array('user'=>$user));
 }

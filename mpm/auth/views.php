@@ -25,7 +25,7 @@ function login($server){
       $form->error_list['username'] = array("Username doesn't exist");
     }
   }
-  return render($server,'mpm/auth/templates/login.php', array('form'=>$form));
+  return render($server,'auth/login.php', array('form'=>$form));
 }
 
 function signup($server){
@@ -51,7 +51,7 @@ function signup($server){
     }
   }
   }
-  return render($server,'mpm/auth/templates/signup.php', array('form'=>$form));
+  return render($server,'auth/signup.php', array('form'=>$form));
 }
 
 function logout($server){
@@ -60,11 +60,16 @@ function logout($server){
 }
 
 function page_not_found($server){
-  return render($server,'templates/404.php');
+  return render($server,'404.php');
 }
 
 function permission_denied($server){
-  return render($server,'templates/permission_denied.php');
+  return render($server,'permission_denied.php');
+}
+
+function password_change($server){
+  $form = new PasswordChangeForm();
+  return render($server,'auth/password_change_form.php', array('form'=>$form));
 }
 
 ?>

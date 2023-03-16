@@ -35,3 +35,13 @@ class UserLoginForm extends forms\Form {
     $this->password = new forms\PasswordField("Password",lap:true);
   }
 }
+
+
+class PasswordChangeForm extends forms\Form {
+  public $old_password,$new_password,$confirm_new_password;
+  public function __construct(){
+    $this->old_password = new forms\PasswordField("Old Password",lap:true);
+    $this->new_password = new forms\PasswordField("New Password",lap:true);
+    $this->confirm_new_password = new forms\PasswordField("Confirm New Password",lap:true);
+  }
+}
