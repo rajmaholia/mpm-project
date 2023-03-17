@@ -6,7 +6,7 @@ define("PROJECT_NAME","MPM");
 
 define("BASE_DIR",realpath("./"));
 
-define("DEBUG",true);
+define("DEBUG", true);
 /***  APPS **/
 define("APPS",[
   'mpm/admin',

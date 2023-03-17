@@ -37,9 +37,18 @@ class Router {
         echo($view($_SERVER));
       }
     } else {
-      if(DEBUG===true)
-        echo(render($_SERVER,"debug.php", array("no_reverse_match"=>true,'url'=>$url,'data'=>$pattern_matching_process_string))); 
-      else redirect(reverse('404'));
-    }
-  }
-}
+      if(DEBUG===true){
+        $mpmException = array(
+          "name"=>"no_reverse_match",
+          "title"=>"No Reverse Match For",
+          "target"=>$url,
+          "extra"=>array("title"=>"Mpm Tried in this order","data"=>$pattern_matching_process_string)
+        );
+        echo(render($_SERVER,"debug.php",array("mpm_exception"=>$mpmException))); 
+      }
+      else {
+        redirect(reverse('404'));
+      }
+    }//if_else $view_name
+  }//method process
+}//class Router

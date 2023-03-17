@@ -36,7 +36,7 @@ function db_insert($table,array $data) {
   return $insertId;
 }
 
-function db_read($table,$data_array=array(),array $filter=array(),$filterOperator='AND',$order_array=array(),$returnType=MYSQLI_ASSOC) {
+function db_read($table,$data=array(),array $filter=array(),$filterOperator='AND',$order_array=array(),$returnType=MYSQLI_ASSOC) {
   $conn = db_connect();
   /** Set Restrictions or Filers **/
   $restrictions = ' ';//Where Rules
@@ -49,7 +49,7 @@ function db_read($table,$data_array=array(),array $filter=array(),$filterOperato
   /*** Data to get **/
   $fields = ' ';
   $seperation = ' ';
-  foreach ($data_array as $key=>$value){
+  foreach ($data as $key=>$value){
     $fields .= $seperation." $value ";
     $seperation = ' , ';
   }
@@ -64,7 +64,7 @@ function db_read($table,$data_array=array(),array $filter=array(),$filterOperato
   
   $where = ($filter!=null && count($filter)>0)?"WHERE":" ";
   $order_by = ($order_array!=null && count($order_array)>0)?"ORDER BY":" ";
-  $dataFields = ($data_array!=null && count($data_array)>0)?$fields:" * ";
+  $dataFields = ($data!=null && count($data)>0)?$fields:" * ";
   $sql = "SELECT $dataFields FROM $table $where $restrictions $order_by $order_by_string";
   $result = mysqli_query($conn,$sql);
   if(!$result){

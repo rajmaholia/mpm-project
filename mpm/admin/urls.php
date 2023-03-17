@@ -18,6 +18,11 @@ $urlpatterns = [
     view:'create_user',
     name:'create_user'
   ),
+  path(
+    url:'/admin/User/(?P<user>\d+)/auth/password-change/',
+    view:'password_change',
+    name:'password_change'
+  ),
   
   path(
     url:'/admin/(?P<table>\w+)/new/',

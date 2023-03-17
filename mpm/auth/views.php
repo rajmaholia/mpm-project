@@ -68,8 +68,35 @@ function permission_denied($server){
 }
 
 function password_change($server){
+  login_required();
+  global $user;
   $form = new PasswordChangeForm();
+  
+  if($server["REQUEST_METHOD"]=="POST") {
+    $form->fill_form($_POST);
+    if(count($form->get_errors())==0) {
+      $cd = cleaned_data($_POST);
+      if(!password_verify($cd["old_password"],$user->password)){
+        $form->error_list["old_password"]=array("Password is not correct");
+      }else {
+        if($cd["new_password"]==$cd["confirm_new_password"]) {
+          if(db_update("User",filter:array("id"=>$user->id),data:array("password"=>password_hash($cd["new_password"], PASSWORD_DEFAULT)))){
+            echo reverse('password_change_done');
+            redirect(
+            reverse('password_change_done'));
+          }
+        } else {
+            $form->error_list["confirm_new_password"] = array("Both Passwords must be same");
+          }//check Password Equal 
+      }
+    }
+  }
   return render($server,'auth/password_change_form.php', array('form'=>$form));
+}
+
+function password_change_done($server){
+  global $user;
+  return render($server,'auth/password_change_done.php',array("user"=>$user));
 }
 
 ?>

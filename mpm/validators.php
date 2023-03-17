@@ -79,5 +79,5 @@ class Validator {
     return empty($data)?true:false;
   }
   
-}
+}//class Validator
 ?>

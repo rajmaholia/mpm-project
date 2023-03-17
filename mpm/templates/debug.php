@@ -10,12 +10,12 @@ if(!defined('SECURE')) exit('<h1>Access Denied</h1>'); ?>
   </head>
   <body>
     <main>
-      <?php if($no_reverse_match==true){
-        echo "<h1>No Reverse Match For</h1>";
-        echo "<h2>$url</h2>";
-        echo "<p>MPM tried in this order</p>";
-        echo $data;
-       }
+      <?php
+        echo "<h1>{$mpm_exception['title']}</h1>";
+        echo "<h2>{$mpm_exception['target']}</h2>";
+        echo "<p>{$mpm_exception['extra']['title']}</p>";
+        echo "<p>{$mpm_exception['extra']['data']}</p>";
+       
       ?>
     </main>
   </body>
