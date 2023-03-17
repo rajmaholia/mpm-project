@@ -18,8 +18,8 @@ function login_required($login_url_name='login') {
 }
 
 
-function render($server,$filename, $vars = null) {
-  $filename = Mpm\Core\TemplateEngine::resolve($filename);
+function render($server,$template_name, $vars = null) {
+  $filename = Mpm\Core\TemplateEngine::resolve($template_name);
   if (is_array($vars) && !empty($vars)) {
     extract($vars);
   }

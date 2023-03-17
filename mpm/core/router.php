@@ -38,7 +38,7 @@ class Router {
       }
     } else {
       if(DEBUG===true)
-        echo(render($_SERVER,"mpm/templates/debug.php", array("no_reverse_match"=>true,'url'=>$url,'data'=>$pattern_matching_process_string))); 
+        echo(render($_SERVER,"debug.php", array("no_reverse_match"=>true,'url'=>$url,'data'=>$pattern_matching_process_string))); 
       else redirect(reverse('404'));
     }
   }
