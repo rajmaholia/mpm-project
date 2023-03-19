@@ -1,11 +1,10 @@
 <?php
+define("SECURE",true);
 /**
  * This is Index file
  *  DON'T EDIT THIS 
 **/
-define("SECURE",true);
 require_once 'config/autoload.php';
+use Mpm\Core\Request;
 
-$url = $_SERVER['REQUEST_URI'];
-
-Mpm\Core\Router::process($url,$urlpatterns);
+Mpm\Core\Router::process(Request::captureUri(),$urlpatterns);

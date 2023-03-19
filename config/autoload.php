@@ -9,5 +9,6 @@ require_once 'mpm/functions.php';
 require_once 'mpm/utils.php';
 require_once 'mpm/validators.php';
 require_once 'mpm/core/router.php';
+require_once 'mpm/core/request.php';
 require_once 'mpm/static/static.php';
 foreach(APPS as $app) {require_once(glob("$app/views.php")[0]);};
