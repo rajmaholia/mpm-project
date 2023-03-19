@@ -6,11 +6,11 @@ if(!defined('SECURE')) exit('<h1>Access Denied</h1>');?>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Dashboard | <?php echo PROJECT_NAME; ?></title>
-    <link rel="stylesheet" href="mpm/admin/static/css/base.css">
+    <link rel="stylesheet" href="<?php echo staticfile("admin/css/base.css"); ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   </head>
 <body>
-  <nav class="navbar navbar-dark bg-primary px-1 ">
+ <nav class="navbar navbar-dark bg-primary px-1 ">
     <div class="navbar-brand text-center px-auto"><?php echo PROJECT_NAME;?> Administration</div>
     <div class="nav">
       <a href ="/" class="nav-link text-info">View Site</a>

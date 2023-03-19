@@ -5,6 +5,7 @@ define("PROJECT_NAME","MPM");
 
 
 define("BASE_DIR",realpath("./"));
+define("BASE_PATH","./");
 
 define("DEBUG", true);
 /***  APPS **/
@@ -25,11 +26,11 @@ define('DATABASE',[
 ]);
 
 define('TEMPLATES',[
-  'DIRS'=>array(BASE_DIR),
+  'DIRS'=>array(BASE_PATH),
 ]);
 
 define('STATICFILES',[
-  'DIRS'=>array(BASE_DIR),
+  'DIRS'=>array(BASE_PATH),
 ]);
 
 
