@@ -28,6 +28,12 @@ define('TEMPLATES',[
   'DIRS'=>array(BASE_DIR),
 ]);
 
+define('STATICFILES',[
+  'DIRS'=>array(BASE_DIR),
+]);
+
+
+
 define("UPLOAD_PATH",'uploads/');
 define("LOGIN_REDIRECT_URL","home");
 define("LOGOUT_REDIRECT_URL","home");
