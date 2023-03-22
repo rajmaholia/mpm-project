@@ -79,5 +79,25 @@ class Validator {
     return empty($data)?true:false;
   }
   
+  public static function lt($data1,$data2){
+    return ($data1<$data2)?true:false;
+  }
+  
+  public static function gt($data1,$data2){
+    return ($data1>$data2)?true:false;
+  }
+  
+  public static function lte($data1,$data2){
+    return ($data1<=$data2)?true:false;
+  }
+  
+  public static function gte($data1,$data2){
+    return ($data1>=$data2)?true:false;
+  }
+  
+  public static function has($arr,$data){
+    return in_array($arr,$data)?true:false;
+  }
+  
 }//class Validator
 ?>

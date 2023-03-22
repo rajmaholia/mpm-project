@@ -4,7 +4,7 @@
  *  DON'T EDIT THIS 
 **/
 define("SECURE",true);
-require_once 'mpm/autoload.php';
+require_once 'config/autoload.php';
 
 $url = $_SERVER['REQUEST_URI'];
 
